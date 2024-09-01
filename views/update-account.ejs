@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+  <link
+    rel="stylesheet"
+    as="style"
+    onload="this.rel='stylesheet'"
+    href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+  />
+  <title>Update Account</title>
+  <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <style>
+    body {
+      font-family: 'Inter', 'Noto Sans', sans-serif;
+      background-color: #111418;
+      overflow-x: hidden;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 40px;
+      border-bottom: 1px solid #293038;
+    }
+    .header .logo {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      color: white;
+    }
+    .header .logo svg {
+      width: 48px;
+      height: 48px;
+    }
+    .header h2 {
+      color: white;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: -0.015em;
+    }
+    .header .buttons {
+      display: flex;
+      gap: 8px;
+    }
+    .header .button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 84px;
+      max-width: 480px;
+      height: 40px;
+      padding: 0 16px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.2;
+      cursor: pointer;
+    }
+    .header .button.sign-up {
+      background-color: #1980e6;
+      color: white;
+    }
+    .header .button.log-in {
+      background-color: #293038;
+      color: white;
+    }
+    .main-content {
+      display: flex;
+      justify-content: center;
+      padding: 20px 80px;
+    }
+    .form-container {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 960px;
+      padding: 20px;
+      background-color: #111418;
+    }
+    .form-container h3 {
+      color: white;
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1.25;
+      padding: 20px 16px 8px;
+    }
+    .form-container label {
+      display: flex;
+      flex-direction: column;
+      min-width: 160px;
+      margin-bottom: 12px;
+    }
+    .form-container p {
+      color: white;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+    .form-container input, .form-container select {
+      width: 100%;
+      height: 56px;
+      padding: 0 16px;
+      border-radius: 12px;
+      background-color: #293038;
+      color: white;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.5;
+      border: none;
+      outline: none;
+    }
+    .form-container input::placeholder, .form-container select::placeholder {
+      color: #9dabb8;
+    }
+    .form-container input[type="checkbox"] {
+      height: 20px;
+      width: 20px;
+      border: 2px solid #3c4753;
+      border-radius: 50%;
+      background-color: transparent;
+      color: #1980e6;
+      accent-color: #1980e6;
+    }
+    .form-container input[type="checkbox"]:checked {
+      background-image: url('data:image/svg+xml,%3csvg viewBox=%270 0 16 16%27 fill=%27rgb(255,255,255)%27 xmlns=%27http://www.w3.org/2000/svg%27%3e%3cpath d=%27M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z%27/%3e%3c/svg%3e');
+    }
+    .form-container button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 84px;
+      max-width: 480px;
+      height: 48px;
+      padding: 0 20px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.2;
+      cursor: pointer;
+      background-color: #1980e6;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <%- include('partials/navbar', { userName: name }) %>
+  <div class="relative flex size-full min-h-screen flex-col bg-[#111418] dark group/design-root overflow-x-hidden">
+    <div class="layout-container flex h-full grow flex-col">
+      <main class="main-content">
+        <div class="form-container">
+          <h3>Update Account</h3>
+          <form action="/accounts/<%= account._id %>/update" method="POST">
+            <label for="account_id">
+              <p>Account ID:</p>
+              <input type="text" id="account_id" name="account_id" value="<%= account._id %>" placeholder="Enter account ID" required disabled />
+            </label>
+            <label for="user_id">
+              <p>User ID:</p>
+              <input type="text" id="user_id" name="user_id" value="<%= account.user_id %>" placeholder="Enter user ID" required disabled />
+            </label>
+            <label for="name">
+              <p>Name:</p>
+              <input type="text" id="name" name="name" value="<%= account.name %>" placeholder="Enter Name" required />
+            </label>
+            <label for="email">
+              <p>Email:</p>
+              <input type="email" id="email" name="email" value="<%= account.email %>" placeholder="Enter email" required />
+            </label>
+            <label for="account_type">
+              <p>Account Type:</p>
+              <select id="account_type" name="account_type" required>
+                <option value="" disabled>Select account type</option>
+                <option value="savings" <%= account.account_type === 'savings' ? 'selected' : '' %>>Savings</option>
+                <option value="checking" <%= account.account_type === 'checking' ? 'selected' : '' %>>Checking</option>
+                <option value="credit" <%= account.account_type === 'credit' ? 'selected' : '' %>>Credit</option>
+              </select>
+            </label>
+            <label for="balance">
+              <p>Balance:</p>
+              <input type="number" id="balance" name="balance" value="<%= account.balance %>" placeholder="Enter balance" step="0.01" />
+            </label>
+            <label for="currency">
+              <p>Currency:</p>
+              <select id="currency" name="currency" required>
+                <option value="" disabled>Select currency</option>
+                <option value="USD" <%= account.currency === 'USD' ? 'selected' : '' %>>USD</option>
+                <option value="EUR" <%= account.currency === 'EUR' ? 'selected' : '' %>>EUR</option>
+                <option value="GBP" <%= account.currency === 'GBP' ? 'selected' : '' %>>GBP</option>
+                <option value="INR" <%= account.currency === 'INR' ? 'selected' : '' %>>INR</option>
+              </select>
+            </label>
+            <button type="submit">Update Account</button>
+          </form>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

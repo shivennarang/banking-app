@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <style>
+   
+    body {
+        font-family: 'Inter', 'Noto Sans', sans-serif;
+        background-color: #111418;
+        margin: 0;
+        padding: 0;
+        color: white;
+    }
+      
+   
+    .container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2.5rem;
+      border-bottom: 1px solid #293038;
+    }
+    
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .logo {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+    
+    .title {
+      font-size: 1.125rem;
+      font-weight: bold;
+      letter-spacing: -0.015em;
+    }
+    
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+    
+    .nav {
+      display: flex;
+      gap: 2rem;
+    }
+    
+    .nav-link {
+      color: white;
+      font-size: 0.875rem;
+      font-weight: medium;
+      text-decoration: none;
+    }
+    
+    .buttons {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      background-color: #3a3a3a;
+      border: none;
+      border-radius: 0.375rem;
+      cursor: pointer;
+    }
+    
+    .profile {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      background-color: #3a3a3a;
+    }
+    
+   
+    .main {
+      flex: 1;
+      padding: 2rem;
+    }
+    
+    .accounts-title,
+    .transactions-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+    
+    .accounts {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    
+    .account {
+      background-color: #1e2026;
+      padding: 1rem;
+      border-radius: 0.375rem;
+      text-align: center;
+      width: 200px; /* Fixed width */
+      height: 150px; /* Fixed height */
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      justify-content: center;
+      align-items: center;
+      position: relative; /* Positioning context for the cross button */
+    }
+    
+    .amount {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin: 0;
+    }
+    
+    .type {
+      font-size: 0.875rem;
+      color: #9ca3af;
+      margin: 0;
+    }
+    
+    .transactions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .transaction {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      background-color: #1e2026;
+      border-radius: 0.375rem;
+    }
+    
+    .transaction-info {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+    
+    .icon {
+      width: 2rem;
+      height: 2rem;
+      background-color: #3a3a3a;
+      border-radius: 50%;
+    }
+    
+    .details {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .description {
+      font-size: 0.875rem;
+      color: #9ca3af;
+    }
+    
+    .amount {
+      font-size: 1rem;
+      color: white;
+    }
+    
+  
+    .delete-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      border: none;
+      background: none;
+      color: white;
+      font-size: 1.25rem;
+      cursor: pointer;
+    }
+    
+   
+    .common-btn {
+      border: none;
+      background-color: white;
+      padding: 0.5rem 1rem; 
+      color: black;
+      font-weight: lighter;
+      border-radius: 5px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.875rem;
+    }
+    
+   
+    .common-btn.update {
+      margin-right: 0.5rem; 
+    }
+    
+ 
+    .no-accounts-message {
+      font-size: 1rem;
+      color: #9ca3af;
+      text-align: center;
+      margin: 2rem 0;
+    }
+    
+   
+    .add-account-btn {
+      display: block;
+      width: 100%;
+      max-width: 200px;
+      margin: 1rem auto;
+      padding: 0.5rem 1rem;
+      background-color: #3a3a3a;
+      color: white;
+      font-weight: lighter;
+      border-radius: 5px;
+      text-decoration: none;
+      text-align: center;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <%- include('partials/navbar', { userName: userName }) %>
+    <main class="main">
+      <h3 class="accounts-title">Your accounts</h3>
+      <% if (accounts.length === 0) { %>
+        <p class="no-accounts-message">No accounts present. <a href="/account" class="add-account-btn">Create one</a></p>
+      <% } else { %>
+        <div style="display: flex; flex-wrap: wrap; gap:20px;">
+          <% accounts.forEach(account => { %>
+              <div class="account">
+                <p class="amount">$<%= account.balance.toFixed(2) %></p>
+                <p class="type"><%= account.account_type %></p>
+                <div style="display: flex; justify-content: space-around; width: 100%;">
+                  <a href="/accounts/<%= account._id %>/update" class="common-btn update">
+                    Update
+                  </a>
+                  <!-- DELETE Form -->
+                  <form id="delete-form-<%= account._id %>" action="/accounts/<%= account._id %>?_method=DELETE" method="POST">
+                    <button type="submit" class="common-btn">
+                      Delete
+                    </button>
+                  </form>
+                </div>
+              </div>
+            <% }); %>
+        </div>
+      <% } %>
+      <h3 class="transactions-title">Recent transactions</h3>
+<div class="transactions">
+  <% if (transactions.length === 0) { %>
+    <p class="no-accounts-message">No recent transactions available.<a href="/transactions" class="add-account-btn">Create one</a></p>
+  <% } else { %>
+    <% transactions.forEach(transaction => { %>
+      <div class="transaction">
+        <div class="transaction-info">
+          <div class="icon">
+            
+          </div>
+          <div class="details">
+            <p class="description"><%= transaction.description %></p>
+            <p class="amount">$<%= transaction.amount.toFixed(2) %></p>
+            <p style="margin-top: 10px;">Account-ID:<%= transaction.account_id %></p>
+            <p style="margin-top: 10px;"><%= transaction.type %></p>
+          </div>
+        </div>
+        <div style="display: flex; justify-content: space-around; width: 100%;flex-direction: column; max-width: 10%;gap:20px">
+          <a href="/transactions/<%= transaction._id %>/update" class="common-btn update">
+            Update
+          </a>
+          <!-- DELETE Form -->
+          <form id="delete-form-<%= transaction._id %>" action="/transactions/<%= transaction._id %>?_method=DELETE" method="POST">
+            <button type="submit" class="common-btn" style="min-width:95%;">
+              Delete
+            </button>
+          </form>
+        </div>
+      </div>
+    <% }); %>
+  <% } %>
+</div>
+    
+    </main>
+  </div>
+</body>
+</html>

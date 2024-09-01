@@ -1,0 +1,87 @@
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Work+Sans%3Awght%40400%3B500%3B700%3B900"
+    />
+    <title>Loan</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  </head>
+  <body>
+    <%- include('partials/navbar', { userName: name }) %>
+    <div class="relative flex size-full min-h-screen flex-col bg-[#111a22] dark group/design-root" style='font-family: "Work Sans", "Noto Sans", sans-serif;'>
+      <div class="layout-container flex h-full grow flex-col">
+        <div class="px-40 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+            <div class="flex flex-wrap justify-between gap-3 p-4">
+              <p class="text-white tracking-light text-[32px] font-bold leading-tight min-w-72">Dashboard</p>
+            </div>
+            <h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Quick overview</h3>
+            <div class="p-4 grid grid-cols-2">
+              <div class="flex flex-col gap-1 border-t border-solid border-t-[#344d65] py-4 pr-2">
+                <a href="/loans/add" style="color:white;background-color: #002741; max-width: fit-content; padding: 3%; border-radius: 1rem; text-decoration: none;">Add Loan</a>
+              </div>
+            </div>
+            <h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Your loans</h3>
+
+            <div class="px-4 py-3 @container">
+              <div class="flex overflow-hidden rounded-xl border border-[#344d65] bg-[#111a22]">
+                <% if (loans.length === 0) { %>
+                  <div class="flex flex-col items-center justify-center w-full p-6 text-center text-white">
+                    <p class="text-lg font-medium">No loans found.</p>
+                    <a href="/loans/add" class="mt-4 px-4 py-2 bg-[#002741] text-white rounded-md text-lg">Create a Loan</a>
+                  </div>
+                <% } else { %>
+                  <table class="flex-1">
+                    <thead>
+                      <tr class="bg-[#1a2632]">
+                        <th class="px-4 py-3 text-left text-white w-[400px] text-sm font-medium leading-normal">Loan name</th>
+                        <th class="px-4 py-3 text-left text-white w-[400px] text-sm font-medium leading-normal">Loan amount</th>
+                        <th class="px-4 py-3 text-left text-white w-[400px] text-sm font-medium leading-normal">Due date</th>
+                        <th class="px-4 py-3 text-left text-white w-[400px] text-sm font-medium leading-normal">Interest rate</th>
+                        <th class="px-4 py-3 text-left text-white w-60 text-sm font-medium leading-normal">Status</th>
+                        <th class="px-4 py-3 text-left text-white w-60 text-sm font-medium leading-normal">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% loans.forEach(function(loan) { %>
+                        <tr class="border-t border-t-[#344d65]">
+                          <td class="h-[72px] px-4 py-2 w-[400px] text-white text-sm font-normal leading-normal"><%= loan.loan_type %></td>
+                          <td class="h-[72px] px-4 py-2 w-[400px] text-[#93adc8] text-sm font-normal leading-normal">$<%= loan.loan_amount %></td>
+                          <td class="h-[72px] px-4 py-2 w-[400px] text-[#93adc8] text-sm font-normal leading-normal"><%= new Date(loan.end_date).toLocaleDateString() %></td>
+                          <td class="h-[72px] px-4 py-2 w-[400px] text-[#93adc8] text-sm font-normal leading-normal"><%= loan.interest_rate %>%</td>
+                          <td class="h-[72px] px-4 py-2 w-60 text-sm font-normal leading-normal">
+                            <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-8 px-4 bg-[#243647] text-white text-sm font-medium leading-normal w-full">
+                              <span class="truncate"><%= loan.status %></span>
+                            </button>
+                          </td>
+                          <td>
+                            <div style="display: flex; flex-direction: column; gap:10px;justify-content: center;">
+                              <a href="/loans/<%= loan._id %>/update">
+                                Update
+                              </a>
+                            
+                              <form id="delete-form-<%= loan._id %>" action="/loans/<%= loan._id %>?_method=DELETE" method="POST">
+                                <button type="submit">
+                                  Delete
+                                </button>
+                              </form>
+                            </div>
+                          </td>
+                        </tr>
+                      <% }); %>
+                    </tbody>
+                  </table>
+                <% } %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

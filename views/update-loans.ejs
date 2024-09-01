@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+  <link
+    rel="stylesheet"
+    as="style"
+    onload="this.rel='stylesheet'"
+    href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+  />
+  <title>Update Loan</title>
+  <style>
+    body {
+      font-family: 'Inter', 'Noto Sans', sans-serif;
+      background-color: #111418;
+      overflow-x: hidden;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 40px;
+      border-bottom: 1px solid #293038;
+    }
+    .header .logo {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      color: white;
+    }
+    .header .logo svg {
+      width: 48px;
+      height: 48px;
+    }
+    .header h2 {
+      color: white;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: -0.015em;
+    }
+    .main-content {
+      display: flex;
+      justify-content: center;
+      padding: 20px 80px;
+    }
+    .form-container {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 960px;
+      padding: 20px;
+      background-color: #111418;
+    }
+    .form-container h3 {
+      color: white;
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1.25;
+      padding: 20px 16px 8px;
+    }
+    .form-container label {
+      display: flex;
+      flex-direction: column;
+      min-width: 160px;
+      margin-bottom: 12px;
+    }
+    .form-container p {
+      color: white;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+    .form-container input, .form-container select {
+      width: 100%;
+      height: 56px;
+      padding: 0 16px;
+      border-radius: 12px;
+      background-color: #293038;
+      color: white;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.5;
+      border: none;
+      outline: none;
+    }
+    .form-container input::placeholder, .form-container select::placeholder {
+      color: #9dabb8;
+    }
+    .form-container button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 84px;
+      max-width: 480px;
+      height: 48px;
+      padding: 0 20px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.2;
+      cursor: pointer;
+      background-color: #1980e6;
+      color: white;
+      border: none;
+      outline: none;
+    }
+  </style>
+</head>
+<body>
+  <%- include('partials/navbar', { userName: name }) %>
+ 
+  <main class="main-content">
+    <div class="form-container">
+      <h3>Update Loan</h3>
+      <form action="/loans/<%= loan._id %>/update" method="POST">
+        <label for="account_id">
+            <p>Account ID:</p>
+            <input type="text" id="user_id" name="user_id" value="<%= loan.account_id %>" placeholder="Enter user ID" required />
+            </select>
+          </label>
+        <label for="user_id">
+          <p>User ID:</p>
+          <input type="text" id="user_id" name="user_id" value="<%= loan.user_id %>" placeholder="Enter user ID" required disabled />
+        </label>
+        <label for="loan_type">
+            <p>Loan Type:</p>
+            <select id="loan_type" name="loan_type" required>
+              <option value="Personal" <%= loan.loan_type === 'Personal' ? 'selected' : '' %>>Personal</option>
+              <option value="Auto" <%= loan.loan_type === 'Auto' ? 'selected' : '' %>>Auto</option>
+              <option value="Mortgage" <%= loan.loan_type === 'Mortgage' ? 'selected' : '' %>>Mortgage</option>
+            </select>
+          </label>
+        <label for="loan_amount">
+          <p>Loan Amount:</p>
+          <input type="number" id="loan_amount" name="loan_amount" value="<%= loan.loan_amount %>" step="0.01" min="0" required placeholder="Enter amount">
+        </label>
+        <label for="remaining_balance">
+          <p>Remaining Balance:</p>
+          <input type="number" id="remaining_balance" name="remaining_balance" value="<%= loan.remaining_balance %>" step="0.01" min="0" required placeholder="Enter balance">
+        </label>
+        <label for="interest_rate">
+          <p>Interest Rate (%):</p>
+          <input type="number" id="interest_rate" name="interest_rate" value="<%= loan.interest_rate %>" step="0.01" min="0" required placeholder="Enter rate">
+        </label>
+        <label for="start_date">
+            <p>Start Date:</p>
+            <input type="date" id="start_date" value="<%= loan.start_date.toISOString().substring(0, 10) %>" name="start_date" required>
+          </label>
+          <label for="end_date">
+            <p>End Date:</p>
+            <input type="date" id="end_date" value="<%= loan.end_date.toISOString().substring(0, 10) %>" name="end_date" required>
+          </label>
+          <label for="status">
+            <p>Status:</p>
+            <select id="status" name="status" required>
+              <option value="Active">Active</option>
+              <option value="Completed">Completed</option>
+              <option value="Defaulted">Defaulted</option>
+            </select>
+          </label>
+        <button type="submit">Update Loan</button>
+      </form>
+    </div>
+  </main>
+</body>
+</html>
